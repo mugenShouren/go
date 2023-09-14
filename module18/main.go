@@ -22,5 +22,6 @@ func greeter() {
 }
 
 func serverHome(w http.ResponseWriter, r *http.Response) {
+
 	w.Write([]byte("<h1>Kasa Kaaye</h1>"))
 }
