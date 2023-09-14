@@ -1,4 +1,4 @@
-module PlayingMOD
+module github.com/mugenshouren/modmodule
 
 go 1.20
 

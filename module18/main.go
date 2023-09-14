@@ -21,7 +21,7 @@ func greeter() {
 	fmt.Println("Hey There!")
 }
 
-func serverHome(w http.ResponseWriter, r *http.Response) {
+func serverHome(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte("<h1>Kasa Kaaye</h1>"))
 }
