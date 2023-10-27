@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/mugenshouren/mongo/model"
@@ -15,14 +17,30 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const connectionString = "mongodb+srv://ayumkd:0OcIVoO4TEDCThcv@cluster0.rvfn8xb.mongodb.net/?retryWrites=true&w=majority"
 const dbName = "netflix"
 const colName = "watchlist"
 
 var collection *mongo.Collection
 
+type Config struct {
+	MongoURI string `json:"mongoURI"`
+}
+
 func init() {
-	clientOptions := options.Client().ApplyURI(connectionString)
+
+	jsonFile, err := os.Open("config.json")
+	if err != nil {
+		panic(err)
+	}
+	defer jsonFile.Close()
+	var config Config
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	err = json.Unmarshal(byteValue, &config)
+	if err != nil {
+		panic(err)
+	}
+
+	clientOptions := options.Client().ApplyURI(config.MongoURI)
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
